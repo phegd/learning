@@ -1,0 +1,154 @@
+---
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: "0.1"
+servers:
+- url: http://localhost:9090
+paths:
+  /employees/update/10001/IN_CHECK/WORK_PERMIT_CHECK_FINISHED:
+    post:
+      description: Auto generated using Swagger Inspector
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IN_CHECK_WORK_PERMIT_CHECK_FINISHED_body'
+            examples:
+              "0":
+                value: '{ "empFullName":"Suhas Hegde", "empAge": 36, "empPhone": "+919986514344" }'
+      responses:
+        "200":
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "0":
+                  value: "10001"
+      servers:
+      - url: http://localhost:9090
+    servers:
+    - url: http://localhost:9090
+  /employees/create:
+    put:
+      description: Auto generated using Swagger Inspector
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/employees_create_body'
+            examples:
+              "0":
+                value: '{ "empFullName":"Suhas Hegde", "empAge": 36, "empPhone": "+919986514344" }'
+      responses:
+        "201":
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "0":
+                  value: "10003"
+      servers:
+      - url: http://localhost:9090
+    servers:
+    - url: http://localhost:9090
+  /employees/search/10001:
+    get:
+      description: Auto generated using Swagger Inspector
+      responses:
+        "200":
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                "0":
+                  value: '{"empId":10001,"empFullName":"Swadesh Hegde","empAge":36,"empPhone":"+919986514344","empEmailId":null,"empAddress":null,"empPostCode":null,"empStatus":{"empStatus":"ADDED","empSecurityStatus":null,"empWorkPermitStatus":null}}'
+      servers:
+      - url: http://localhost:9090
+    servers:
+    - url: http://localhost:9090
+  /employees/update/10001/ACTIVE:
+    post:
+      description: Auto generated using Swagger Inspector
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/10001_ACTIVE_body'
+            examples:
+              "0":
+                value: '{ "empFullName":"Suhas Hegde", "empAge": 36, "empPhone": "+919986514344" }'
+      responses:
+        "200":
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "0":
+                  value: "10001"
+      servers:
+      - url: http://localhost:9090
+    servers:
+    - url: http://localhost:9090
+components:
+  schemas:
+    IN_CHECK_WORK_PERMIT_CHECK_FINISHED_body:
+      type: object
+      properties:
+        empPhone:
+          type: string
+        empAge:
+          type: integer
+        empFullName:
+          type: string
+    employees_create_body:
+      type: object
+      properties:
+        empPhone:
+          type: string
+        empAge:
+          type: integer
+        empFullName:
+          type: string
+    inline_response_200:
+      type: object
+      properties:
+        empId:
+          type: integer
+        empPhone:
+          type: string
+        empStatus:
+          type: object
+          properties:
+            empStatus:
+              type: string
+            empWorkPermitStatus: {}
+            empSecurityStatus: {}
+        empPostCode: {}
+        empEmailId: {}
+        empAge:
+          type: integer
+        empAddress: {}
+        empFullName:
+          type: string
+    "10001_ACTIVE_body":
+      type: object
+      properties:
+        empPhone:
+          type: string
+        empAge:
+          type: integer
+        empFullName:
+          type: string
