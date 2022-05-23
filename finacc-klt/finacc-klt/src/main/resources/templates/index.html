@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+        var app = angular.module("currencyConversionApp", []);
+        app.controller("currencyConversionCtrl", function($scope, $http) {
+            $scope.currencies = [];
+            $scope.errorMsg = '';
+
+            $scope.loadCurrencies = function(){
+                $http.get("/klt/conversion/currency/symbols")
+                .then(function(response) {
+                    if(response.data.success) {
+                        $scope.currencies = response.data.currencies;
+                        $scope.baseAmount = 1;
+                    }
+                });
+            }
+
+            $scope.convertCurrencies = function(){
+                try {
+                    if($scope.baseCurrency && $scope.targetCurrency) {
+                        var baseCurrency = $scope.baseCurrency.split(" - ")[0];
+                        var targetCurrency = $scope.targetCurrency.split(" - ")[0];
+                        $http.get("/klt/conversion/currency/" + baseCurrency)
+                        .then(function successCallback(response) {
+                            if (response.data.success) {
+                                var conversionRatesMap = response.data.rates;
+                                $scope.targetAmount = $scope.baseAmount * conversionRatesMap[targetCurrency];
+                                $scope.errorMsg = '';
+                            }
+                        }, function errorCallback(response) {
+                            $scope.errorMsg = 'ERROR: Currently not supported by Conversion API (http://api.exchangeratesapi.io/v1)';
+                        });
+                    } else{
+                        $scope.errorMsg = "ERROR: Select both source and target currencies for conversion";
+                    }
+                } catch(err) {
+                    $scope.errorMsg = "ERROR: " + err;
+                }
+            }
+
+            $scope.loadCurrencies();
+        });
+    </script>
+</head>
+<body>
+<div ng-app="currencyConversionApp" ng-controller="currencyConversionCtrl">
+    <h1 th:text="${welcome}"></h1>
+    <h3 th:text="${applicationTitle}"></h3>
+
+    <div>
+        <input value="1" type="number" ng-model="baseAmount"/>
+        <select ng-model="baseCurrency">
+            <option ng-repeat="currencyOption in currencies" value="{{currencyOption}}">{{currencyOption}}</option>
+        </select>
+        <select ng-model="targetCurrency">
+            <option ng-repeat="currencyOption in currencies" value="{{currencyOption}}">{{currencyOption}}</option>
+        </select>
+        <button type="submit" align="center" ng-click="convertCurrencies()">Convert ==> </button>
+        <input type="number" id="targetAmount" ng-model="targetAmount" disabled/>
+    </div>
+    <p style="color:red;font-size:20px;" ng-model="errorMsg">{{errorMsg}}</p>
+</div>
+</body>
+</html>

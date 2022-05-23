@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: ECB Converter
+
+server:
+  port: 9000
